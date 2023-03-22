@@ -18,6 +18,16 @@ const reactionSchema = new Schema(
     createdAt: {
       type: Date,
       default: Date.now,
+      get: (date) => {
+        if (date)
+          return (
+            date.getMonth() +
+            "/" +
+            date.getDate() +
+            "/" +
+            date.getFullYear().toString().substr(-2)
+          );
+      },
     },
   },
   {
@@ -39,6 +49,16 @@ const thoughtSchema = new Schema(
     createdAt: {
       type: Date,
       default: Date.now,
+      get: (date) => {
+        if (date)
+          return (
+            date.getMonth() +
+            "/" +
+            date.getDate() +
+            "/" +
+            date.getFullYear().toString().substr(-2)
+          );
+      },
     },
     username: {
       type: String,
@@ -46,11 +66,13 @@ const thoughtSchema = new Schema(
     },
     reactions: [reactionSchema],
   },
+
   {
     toJSON: {
       getters: true,
       virtuals: true,
     },
+    id: false,
   }
 );
 
