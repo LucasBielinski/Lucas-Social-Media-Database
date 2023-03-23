@@ -51,4 +51,30 @@ module.exports = {
       .then(() => res.json({ message: "user and associated thoughts deleted" }))
       .catch((err) => res.status(500).json(err));
   },
+  addFriend(req, res) {
+    User.findOneAndUpdate(
+      { _id: req.params.userId },
+      { $addToSet: { friends: req.body } }
+      // run validators?
+    )
+      .then((user) =>
+        !user
+          ? res.status(400).json({ message: "no user with this id" })
+          : res.json(user)
+      )
+      .catch((err) => res.status(500).json(err));
+  },
+  byeFriend(req, res) {
+    User.findOneAndUpdate(
+      { _id: req.params.userId },
+      { $pull: { friends: { friendId: req.params.friendId } } }
+      // run validators?
+    )
+      .then((user) =>
+        !user
+          ? res.status(404).json({ message: "No user with this id" })
+          : res.json(user)
+      )
+      .catch((err) => res.status(500).json(err));
+  },
 };
