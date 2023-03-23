@@ -80,7 +80,7 @@ module.exports = {
       .catch((err) => res.status(500).json(err));
   },
 
-  byeFriend(req, res) {
+  removeReact(req, res) {
     Thought.findOneAndUpdate(
       { _id: req.params.thoughtId },
       { $pull: { reactions: { reactionId: req.params.reactionId } } }
