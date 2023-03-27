@@ -60,7 +60,6 @@ module.exports = {
     User.findOneAndUpdate(
       { _id: req.params.userId },
       { $addToSet: { friends: req.params.friendId } }
-      // run validators?
     )
       .then((user) =>
         !user
@@ -71,10 +70,11 @@ module.exports = {
   },
   // removes friends
   byeFriend(req, res) {
+    console.log(req.params.userId, req.params.friendId);
     User.findOneAndUpdate(
       { _id: req.params.userId },
-      { $pull: { friends: { friendId: req.params.friendId } } }
-      // run validators?
+      // { $pull: { friends: { friendId: { $eq: req.params.friendId } } } }
+      { $pull: { friends: req.params.friendId } }
     )
       .then((user) =>
         !user

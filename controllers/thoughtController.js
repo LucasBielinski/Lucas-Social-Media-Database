@@ -32,7 +32,7 @@ module.exports = {
       )
       .catch((err) => res.status(500).json(err));
   },
-// gets single thought
+  // gets single thought
   getSingleThought(req, res) {
     Thought.findOne({ _id: req.params.thoughtId })
       .select("-__V")
@@ -58,17 +58,17 @@ module.exports = {
       )
       .catch((err) => res.status(500).json(err));
   },
-// deletes thought
+  // deletes thought
   deleteThought(req, res) {
     Thought.findOneAndDelete({ _id: req.params.thoughtId })
       .then((thought) =>
         !thought
-          ? res.status(404).json({ message: "no user found" })
+          ? res.status(404).json({ message: "no thought found" })
           : res.json({ message: "user and associated thoughts deleted" })
       )
       .catch((err) => res.status(500).json(err));
   },
-// add a reaction
+  // add a reaction
   addReaction(req, res) {
     Thought.findOneAndUpdate(
       { _id: req.params.thoughtId },
@@ -82,7 +82,7 @@ module.exports = {
       )
       .catch((err) => res.status(500).json(err));
   },
-// deletes a reaction
+  // deletes a reaction
   removeReact(req, res) {
     Thought.findOneAndUpdate(
       { _id: req.params.thoughtId },
