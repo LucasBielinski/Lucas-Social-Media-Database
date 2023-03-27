@@ -1,6 +1,8 @@
 const { User, Thought } = require("../models");
 
+// exports functions
 module.exports = {
+  // sets get route for all thoughts
   getThought(req, res) {
     Thought.find()
       .then((thought) => res.json(thought))
@@ -12,10 +14,10 @@ module.exports = {
   // create a new post
   createThought(req, res) {
     console.log(req.body);
+    // creates a thought associates the thought with a user id, add though id to thoughts array
     Thought.create(req.body)
       .then((thought) => {
         return User.findOneAndUpdate(
-          // unsure
           { _id: req.body.userId },
           { $addToSet: { thoughts: thought._id } },
           { new: true }
@@ -30,7 +32,7 @@ module.exports = {
       )
       .catch((err) => res.status(500).json(err));
   },
-
+  // gets single thought
   getSingleThought(req, res) {
     Thought.findOne({ _id: req.params.thoughtId })
       .select("-__V")
@@ -42,6 +44,7 @@ module.exports = {
       )
       .catch((err) => res.status(500).json(err));
   },
+  // updates thought
   updateThought(req, res) {
     Thought.findOneAndUpdate(
       { _id: req.params.thoughtId },
@@ -55,17 +58,17 @@ module.exports = {
       )
       .catch((err) => res.status(500).json(err));
   },
-
+  // deletes thought
   deleteThought(req, res) {
     Thought.findOneAndDelete({ _id: req.params.thoughtId })
       .then((thought) =>
         !thought
-          ? res.status(404).json({ message: "no user found" })
+          ? res.status(404).json({ message: "no thought found" })
           : res.json({ message: "user and associated thoughts deleted" })
       )
       .catch((err) => res.status(500).json(err));
   },
-
+  // add a reaction
   addReaction(req, res) {
     Thought.findOneAndUpdate(
       { _id: req.params.thoughtId },
@@ -79,7 +82,7 @@ module.exports = {
       )
       .catch((err) => res.status(500).json(err));
   },
-
+  // deletes a reaction
   removeReact(req, res) {
     Thought.findOneAndUpdate(
       { _id: req.params.thoughtId },

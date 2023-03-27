@@ -1,6 +1,7 @@
 const { User, Thought } = require("../models");
 
 module.exports = {
+  // gets all users
   getUsers(req, res) {
     User.find()
       .then((users) => res.json(users))
@@ -16,6 +17,7 @@ module.exports = {
       .then((user) => res.json(user))
       .catch((err) => res.status(500).json(err));
   },
+  // gets single users
   getSingleUser(req, res) {
     User.findOne({ _id: req.params.userId })
       .select("-__V")
@@ -28,6 +30,7 @@ module.exports = {
       )
       .catch((err) => res.status(500).json(err));
   },
+  // updates user
   updateUser(req, res) {
     User.findOneAndUpdate(
       { _id: req.params.userId },
@@ -41,6 +44,7 @@ module.exports = {
       )
       .catch((err) => res.status(500).json(err));
   },
+  // deletes user
   deleteUser(req, res) {
     User.findOneAndDelete({ _id: req.params.userId })
       .then((user) =>
@@ -51,11 +55,11 @@ module.exports = {
       .then(() => res.json({ message: "user and associated thoughts deleted" }))
       .catch((err) => res.status(500).json(err));
   },
+  // adds friends
   addFriend(req, res) {
     User.findOneAndUpdate(
       { _id: req.params.userId },
-      { $addToSet: { friends: req.body } }
-      // run validators?
+      { $addToSet: { friends: req.params.friendId } }
     )
       .then((user) =>
         !user
@@ -64,11 +68,13 @@ module.exports = {
       )
       .catch((err) => res.status(500).json(err));
   },
+  // removes friends
   byeFriend(req, res) {
+    console.log(req.params.userId, req.params.friendId);
     User.findOneAndUpdate(
       { _id: req.params.userId },
-      { $pull: { friends: { friendId: req.params.friendId } } }
-      // run validators?
+      // { $pull: { friends: { friendId: { $eq: req.params.friendId } } } }
+      { $pull: { friends: req.params.friendId } }
     )
       .then((user) =>
         !user
