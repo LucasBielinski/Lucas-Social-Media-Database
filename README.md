@@ -1,4 +1,4 @@
-# Social-media-database
+# Lucas-Social-Media-Database
 
 ## Description
 
