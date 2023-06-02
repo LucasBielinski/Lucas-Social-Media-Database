@@ -4,6 +4,8 @@
 
 This project is my first project where Mongodb is used. I built this project as a way to test the limitations and capabilities of Mongodb. I wanted to see the similarities and differences between MySql and Mongoose. This is an example of a social media database, where users can add each other as friends, make posts, and comment on posts. This way I can understand how a non-relational database works.
 
+Technologies used include, Express.js, MongoDB, and mongoose.
+
 ## Installation
 
 The following node programs must be installed if running from the terminal, express and mongoose.
